@@ -1,6 +1,7 @@
 import Layout from "../components/layout"
 import { GetServerSideProps } from "next"
-import { getSession } from "next-auth/react"
+import { getServerSession } from "next-auth"
+import { authOptions } from "./api/auth/[...nextauth]"
 
 export default function IndexPage() {
   return (
@@ -16,7 +17,7 @@ export default function IndexPage() {
 
 //Token is not persisting when using server side session
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const session = await getSession(context)
+  const session = await getServerSession(context.req, context.res, authOptions)
   return {
       props: {
           session

@@ -107,7 +107,10 @@ export const authOptions: NextAuthOptions = {
         },
         async session({ session, token }) {
             console.log(`Executing session() with token ${token.expires_at}`)
-            session.error = token.error
+            // You need to set the user object properly in jwt callback,
+            // Error: Error serializing .session.user.image was occuring because
+            // session.user.image was undefined, it needs to be value || null
+            session.user = { name: "", email: null, image: null };
             return session
         },
     },
